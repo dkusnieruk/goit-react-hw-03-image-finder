@@ -5,8 +5,7 @@ class ImageGallery extends Component {
     
     render()
 
-    {
-    const imageFolder = this.props.apiImg 
+    { 
         return(
             <ul className={css.gallery}>
                 {

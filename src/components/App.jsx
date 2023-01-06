@@ -52,7 +52,6 @@ onSubmit = (event) =>{
    const response = await axios.get(`https://pixabay.com/api/?q=
   ${this.state.filter}
    &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`);
-   const apiImg = await response.data.hits
   
    this.setState({
    apiImg: response.data.hits,
@@ -72,7 +71,7 @@ onSubmit = (event) =>{
  
 render(){  
   console.log(this.state);
-  const {apiImg, error, isLoading, response, onChange, onSubmit} = this.state
+  const {apiImg, error, isLoading, response} = this.state
 
   return (
    <>
@@ -81,7 +80,7 @@ render(){
         {isLoading && <RevolvingDot/>}
         {apiImg.length > 0 &&<>
         <SearchBar onChange={this.onChange} onSubmit={this.onSubmit}/>
-        <ImageGallery apiImg={this.state.apiImg} response={this.state.response} />
+        <ImageGallery apiImg={apiImg} response={response} />
         
         </>}
       </div>
