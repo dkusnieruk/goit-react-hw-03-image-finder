@@ -8,20 +8,20 @@ class ImageGallery extends Component {
     { 
         return(
             <ul className={css.gallery}>
+                
                 {
                 this.props.apiImg.map((apiImg, index) =>{
                     return (
                         <ImageGalleryItem apiImg={apiImg} 
                         index={index} 
                         key={apiImg.id} 
-                        largeImageURL={apiImg.largeImageURL}
+                        largeImageURL={apiImg.webformatURL}
                         tags={apiImg.tags}
                         />
                     )
                 })
                  
                 }
-           {/* <ImageGalleryItem/> */}
             </ul>
         )
     }

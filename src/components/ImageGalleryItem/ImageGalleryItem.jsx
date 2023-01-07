@@ -5,7 +5,7 @@ class ImageGalleryItem extends Component {
        
         return(
             <li className='' 
-            key={this.props.key}>
+            key={this.props.id}>
   <img src=
   {this.props.largeImageURL} 
   alt={this.props.tags}

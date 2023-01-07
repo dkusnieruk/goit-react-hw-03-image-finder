@@ -15,7 +15,7 @@ import { RevolvingDot } from  'react-loader-spinner'
   wrapperClass=""
   visible={true}
 />
-const API_KEY= "30699126-723906f358b47efc488aca811"
+
 
 axios.defaults.baseURL ="https://pixabay.com/api"
 
@@ -24,6 +24,8 @@ axios.defaults.baseURL ="https://pixabay.com/api"
     super()
       this.state ={
         apiImg :[],
+        apiKey : '30699126-723906f358b47efc488aca811',
+        baseURL :'https://pixabay.com/api',
         isLoading:false,
         error:null,
         filter:""
@@ -35,23 +37,24 @@ this.setState({
  filter: value
 })
 }
-componendDidUpdate(prevProp, prevState){
-  if (prevState.filter !== this.state.filter){
-    return this.state.filter
-  }
-}
+
 onSubmit = (event) =>{
   event.preventDefault();
-  this.componentDidUpdate()
+  this.componentDidMount()
 } 
   async componentDidMount(){
     this.setState({isLoading:true});
+    if (this.state.filter===0){
+      this.setState({
+        apiImg:""
+      })
+    }
+    else 
     try{
-      const valueFilter = this.state.filter
-      console.log(valueFilter);
-   const response = await axios.get(`https://pixabay.com/api/?q=
+      
+   const response = await axios.get(`${this.state.baseURL}/?q=
   ${this.state.filter}
-   &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`);
+   &page=1&key=${this.state.apiKey}&image_type=photo&orientation=horizontal&per_page=12`);
   
    this.setState({
    apiImg: response.data.hits,
@@ -71,6 +74,11 @@ onSubmit = (event) =>{
  
 render(){  
   console.log(this.state);
+  if (this.state.filter===0){
+    this.setState({
+      apiImg:""
+    })
+  }
   const {apiImg, error, isLoading, response} = this.state
 
   return (

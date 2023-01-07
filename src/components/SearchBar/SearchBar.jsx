@@ -5,11 +5,11 @@ class SearchBar extends Component {
     render(){
         return (
             <header className="searchbar">
-  <form className="form">
+  <form className="form" onSubmit={this.props.onSubmit}>
     <button 
     type="submit" 
     className="button"
-    onSubmit={this.props.onSubmit}>
+    >
       <span className="button-label">Search</span>
     </button>
 
