@@ -1,6 +1,8 @@
 import { Component } from "react";
 import SearchBar from "./SearchBar/SearchBar";
 import ImageGallery from "./ImageGallery/ImageGallery";
+import Modal from "./Modal/Modal";
+import * as basicLightbox from 'basiclightbox'
 import axios from "axios";
 import { RevolvingDot } from  'react-loader-spinner'
 
@@ -71,6 +73,16 @@ onSubmit = (event) =>{
    }
   }
   
+  onClick =(event) =>{
+    event.preventDefault()
+    console.log(Modal);
+    const instance = basicLightbox.create(`
+    ${<Modal/>}
+    
+`)
+
+instance.show()  
+  }
  
 render(){  
   console.log(this.state);
@@ -88,8 +100,8 @@ render(){
         {isLoading && <RevolvingDot/>}
         {apiImg.length > 0 &&<>
         <SearchBar onChange={this.onChange} onSubmit={this.onSubmit}/>
-        <ImageGallery apiImg={apiImg} response={response} />
-        
+        <ImageGallery apiImg={apiImg} response={response} onClick={this.onClick}/>
+        <Modal apiImg={apiImg}/>
         </>}
       </div>
     

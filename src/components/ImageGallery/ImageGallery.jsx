@@ -12,10 +12,13 @@ class ImageGallery extends Component {
                 {
                 this.props.apiImg.map((apiImg, index) =>{
                     return (
-                        <ImageGalleryItem apiImg={apiImg} 
+                        <ImageGalleryItem 
+                        onClick={this.props.onClick}
+                        apiImg={apiImg} 
                         index={index} 
                         key={apiImg.id} 
-                        largeImageURL={apiImg.webformatURL}
+                        webformatURL={apiImg.webformatURL}
+                        largeFormatURL={apiImg.largeImageURL}
                         tags={apiImg.tags}
                         />
                     )

@@ -4,12 +4,16 @@ class ImageGalleryItem extends Component {
     render(){
        
         return(
-            <li className='' 
+            <li 
             key={this.props.id}>
+<a className={css.link} href={this.props.largeFormatURL} 
+onClick={this.props.onClick}
+title={this.props.tags}>
   <img src=
-  {this.props.largeImageURL} 
+  {this.props.webformatURL} 
   alt={this.props.tags}
-  className={css.image} />
+  className={css.image}/>
+  </a>
 </li>
         )
     }
