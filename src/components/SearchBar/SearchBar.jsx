@@ -1,20 +1,14 @@
 import { Component } from "react";
+import css from "../SearchBar/searchBar.module.css"
 
 class SearchBar extends Component {
 
     render(){
         return (
             <header className="searchbar">
-  <form className="form" onSubmit={this.props.onSubmit}>
-    <button 
-    type="submit" 
-    className="button"
-    >
-      <span className="button-label">Search</span>
-    </button>
-
+  <form className={css.form} onSubmit={this.props.onSubmit}>
     <input
-      className="input"
+      className={css.input}
       type="text"
       autoComplete="off"
       name="filter"
