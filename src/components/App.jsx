@@ -81,6 +81,12 @@ onSubmit = (event) =>{
 `)
 
 instance.show()  
+document.addEventListener(`keydown`, (event)=>{
+  if (event.key === "Escape"){
+      instance.close();
+  }
+})
+
   }
  
 render(){  
