@@ -75,10 +75,9 @@ onSubmit = (event) =>{
   
   onClick =(event) =>{
     event.preventDefault()
-    console.log(Modal);
-    const instance = basicLightbox.create(`
-    ${<Modal/>}
-    
+       const instance = basicLightbox.create(`
+       <img src=${event.target.href || event.target.src}/>
+       <Modal src${event.target.href || event.target.src}/>
 `)
 
 instance.show()  
