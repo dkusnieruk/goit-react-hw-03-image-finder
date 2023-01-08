@@ -9,11 +9,20 @@
 .input{
     height: 30px;
     font-size: 14px;
+    padding-left: 40px;
+    
+}
+
+button{
+    position: relative;
+    width: 28px;
+    height: 28px;
     background-image: url(https://cdn2.hubspot.net/hubfs/4004166/bioticresearch_website_assets/images/search_icon.png);
     background-repeat: no-repeat;
-    background-position: left center;
-    padding-left: 40px;
+    background-position: center;
+    right:210px;
     background-color: #fff;
-    border: 1px solid #000;
+    border: 1px solid white;
+    cursor: pointer;
     box-shadow: none;
 }

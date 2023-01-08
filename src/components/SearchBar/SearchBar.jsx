@@ -17,6 +17,7 @@ class SearchBar extends Component {
       value={this.props.filter}
       onChange={this.props.onChange}
     />
+    <button  className={css.button} type="submit"></button>
   </form>
 </header>
         )
