@@ -100,12 +100,19 @@ onSubmit = (event) =>{
 
   }
 onClose = (event) =>{
+  document.addEventListener(`keydown`, (event)=>{
+      if (event.key === "Escape"){
+          this.setState({
+            showModal:false
+          });
+      }})
   this.setState({
     showModal:false
   })
 }
 
 render(){  
+  
   console.log(this.state);
   if (this.state.filter===0){
     this.setState({
