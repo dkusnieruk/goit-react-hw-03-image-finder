@@ -6,7 +6,7 @@ class ImageGallery extends Component {
     render()
 
     { 
-        return(
+        return(<>
             <ul className={css.gallery}>
                 
                 {
@@ -26,6 +26,10 @@ class ImageGallery extends Component {
                  
                 }
             </ul>
+            <div className={css.buttonPlace}>
+            <button onClick={this.props.updateCount} className={css.button}> Load More Pics</button>
+            </div>
+            </>
         )
     }
 }

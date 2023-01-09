@@ -6,6 +6,9 @@ import axios from "axios";
 import { RevolvingDot } from  'react-loader-spinner'
 
 <RevolvingDot
+  position='absolute'
+  left='50%'
+  top="50%"
   height="100"
   width="100"
   radius="6"
@@ -31,7 +34,9 @@ const API_KEY ='30699126-723906f358b47efc488aca811'
         isLoading:false,
         error:null,
         filter:"",
-        showModal:false
+        showModal:false,
+        pictureAmount:12,
+        multiple:1
        }
   }
 
@@ -46,6 +51,9 @@ this.setState({
 
 onSubmit = (event) =>{
   event.preventDefault();
+  this.setState({
+    multiple:1
+  })
   this.gallerImplementation()
 } 
   async gallerImplementation(){
@@ -56,12 +64,14 @@ onSubmit = (event) =>{
       })
     }
     else 
-    try{
-      
-   const response = await axios.get(`${baseURL}/?q=
+    try{ 
+     
+   let response = await axios.get(`${baseURL}/?q=
   ${this.state.filter}
-   &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`);
-  
+   &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${this.state.pictureAmount * this.state.multiple}`);
+   if(response.data.hits===0){
+    alert("No matches found")
+   }   
    this.setState({
    apiImg: response.data.hits,
    response: response.data 
@@ -84,7 +94,7 @@ onSubmit = (event) =>{
       link :event.currentTarget.href,
       tags:event.currentTarget.title
     })
-    console.log(event.currentTarget);
+  
     
 //        const instance = basicLightbox.create(`
 //        <img src=${event.target.href || event.target.src}/>
@@ -110,10 +120,16 @@ onClose = (event) =>{
     showModal:false
   })
 }
+updateCount =() =>{
+  this.gallerImplementation()
+  this.setState( prevState =>({
+    multiple : prevState.multiple + 1 
+  }))
+}
 
 render(){  
   
-  console.log(this.state);
+  
   if (this.state.filter===0){
     this.setState({
       apiImg:""
@@ -129,11 +145,14 @@ render(){
         {isLoading && <RevolvingDot/>}
         {apiImg.length > 0 &&<>
         {/* <SearchBar onChange={this.onChange} onSubmit={this.onSubmit}/> */}
-        <ImageGallery apiImg={apiImg} response={response} onClick={this.onClick}/>
-        </>}
+        <ImageGallery apiImg={apiImg} response={response} onClick={this.onClick} updateCount={this.updateCount}/>
+        </>
+        
+        }
         {showModal && <Modal link={link} tags={tags} onClose={this.onClose}/>}
+        
       </div>
-    
+      
    </>
   );
 };
