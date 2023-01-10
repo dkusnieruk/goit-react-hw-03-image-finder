@@ -48,6 +48,9 @@ class App extends Component {
   onSubmit = event => {
     event.preventDefault();
     this.gallerImplementation();
+    this.setState({
+      page:1,
+    })
   };
 
   async gallerImplementation() {
@@ -58,7 +61,7 @@ class App extends Component {
       });
     } else
       try {
-        let galleryAmount = this.state.pictureAmount*this.state.page
+        let galleryAmount = this.state.pictureAmount;
         let response = await axios.get(`${baseURL}/?q=
   ${this.state.filter}
    &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
@@ -66,7 +69,6 @@ class App extends Component {
           apiImg: response.data.hits,
           response: response.data,
         });
-
       } catch (error) {
         this.setState({ error });
       } finally {
@@ -112,7 +114,7 @@ class App extends Component {
 
   async didComponentUpdate(prevState) {
     if (this.shouldComponentUpdate) {
-      let galleryAmount = (this.state.pictureAmount*this.state.page)+12
+      let galleryAmount = this.state.pictureAmount * this.state.page + 12;
       let response = await axios.get(`${baseURL}/?q=
 ${this.state.filter}
  &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
@@ -120,7 +122,6 @@ ${this.state.filter}
         apiImg: response.data.hits,
         response: response.data,
       });
-
     } else {
       return false;
     }
@@ -142,7 +143,7 @@ ${this.state.filter}
       showModal,
       imageSrc,
       imageAlt,
-      page
+      page,
     } = this.state;
 
     return (
