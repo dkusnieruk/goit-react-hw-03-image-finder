@@ -36,7 +36,7 @@ const API_KEY ='30699126-723906f358b47efc488aca811'
         filter:"",
         showModal:false,
         pictureAmount:12,
-        multiple:1
+        page:1
        }
   }
 
@@ -47,16 +47,17 @@ this.setState({
 })
 }
 
-
-
 onSubmit = (event) =>{
   event.preventDefault();
-  this.setState({
-    multiple:1
-  })
   this.gallerImplementation()
+  this.setState({
+    page:1
+  })
+  this.didComponentUpdate()
 } 
+
   async gallerImplementation(){
+    
     this.setState({isLoading:true});
     if (this.state.filter===0){
       this.setState({
@@ -65,10 +66,10 @@ onSubmit = (event) =>{
     }
     else 
     try{ 
-     
+      
    let response = await axios.get(`${baseURL}/?q=
   ${this.state.filter}
-   &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${this.state.pictureAmount * this.state.multiple}`);
+   &page=${this.state.page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${this.state.pictureAmount}`);
    if(response.data.hits===0){
     alert("No matches found")
    }   
@@ -76,7 +77,8 @@ onSubmit = (event) =>{
    apiImg: response.data.hits,
    response: response.data 
 
-   });}
+   })
+  }
    catch(error){
     this.setState({error});
    }
@@ -91,23 +93,9 @@ onSubmit = (event) =>{
     event.preventDefault()
     this.setState({
       showModal:true,
-      link :event.currentTarget.href,
-      tags:event.currentTarget.title
+      imageSrc :event.currentTarget.href,
+      imageAlt:event.currentTarget.title
     })
-  
-    
-//        const instance = basicLightbox.create(`
-//        <img src=${event.target.href || event.target.src}/>
-//        <Modal//>
-// `)
-
-// instance.show()  
-// document.addEventListener(`keydown`, (event)=>{
-//   if (event.key === "Escape"){
-//       instance.close();
-//   }
-// })
-
   }
 onClose = (event) =>{
   document.addEventListener(`keydown`, (event)=>{
@@ -121,21 +109,38 @@ onClose = (event) =>{
   })
 }
 updateCount =() =>{
-  this.gallerImplementation()
+  
+  this.didComponentUpdate()
   this.setState( prevState =>({
-    multiple : prevState.multiple + 1 
+    page : prevState.page + 1 
   }))
+  this.didComponentUpdate()
+  
+}
+
+shouldComponentUpdate(nextState){
+  if( this.state.page !== nextState.page)
+  return true
+  else {return false}
+}
+
+didComponentUpdate(prevState){
+  if(this.shouldComponentUpdate){
+     this.gallerImplementation()
+    
+  } else 
+  { return false}
 }
 
 render(){  
-  
+  console.log(this.state);
   
   if (this.state.filter===0){
     this.setState({
       apiImg:""
     })
   }
-  const {apiImg, error, isLoading, response, showModal, link, tags} = this.state
+  const {apiImg, error, isLoading, response, showModal, imageSrc, imageAlt} = this.state
 
   return (
    <>
@@ -144,12 +149,13 @@ render(){
         {error && <p>Whoops, something went wrong: {error.message}</p>}
         {isLoading && <RevolvingDot/>}
         {apiImg.length > 0 &&<>
-        {/* <SearchBar onChange={this.onChange} onSubmit={this.onSubmit}/> */}
+
         <ImageGallery apiImg={apiImg} response={response} onClick={this.onClick} updateCount={this.updateCount}/>
+        
         </>
         
         }
-        {showModal && <Modal link={link} tags={tags} onClose={this.onClose}/>}
+        {showModal && <Modal imageSrc={imageSrc} imageAlt={imageAlt} onClose={this.onClose}/>}
         
       </div>
       
