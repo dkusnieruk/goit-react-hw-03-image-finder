@@ -1,11 +1,10 @@
-.image{
- 
-    width: 350px;
-    height: 350px;
-    margin:5px;
+.image {
+  width: 350px;
+  height: 350px;
+  margin: 5px;
 }
 
-.link{
-    display:flex;
-    height:100%
+.link {
+  display: flex;
+  height: 100%;
 }
