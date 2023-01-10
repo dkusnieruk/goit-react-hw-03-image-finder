@@ -48,10 +48,6 @@ class App extends Component {
   onSubmit = event => {
     event.preventDefault();
     this.gallerImplementation();
-    this.setState({
-      page: 1,
-    });
-    this.didComponentUpdate();
   };
 
   async gallerImplementation() {
@@ -62,16 +58,15 @@ class App extends Component {
       });
     } else
       try {
+        let galleryAmount = this.state.pictureAmount*this.state.page
         let response = await axios.get(`${baseURL}/?q=
   ${this.state.filter}
-   &page=${this.state.page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${this.state.pictureAmount}`);
-        if (response.data.hits === 0) {
-          alert('No matches found');
-        }
+   &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
         this.setState({
           apiImg: response.data.hits,
           response: response.data,
         });
+
       } catch (error) {
         this.setState({ error });
       } finally {
@@ -106,7 +101,6 @@ class App extends Component {
       page: prevState.page + 1,
     }));
     this.didComponentUpdate();
-    this.gallerImplementation();
   };
 
   shouldComponentUpdate(nextState) {
@@ -116,9 +110,17 @@ class App extends Component {
     }
   }
 
-  didComponentUpdate(prevState) {
+  async didComponentUpdate(prevState) {
     if (this.shouldComponentUpdate) {
-      this.gallerImplementation();
+      let galleryAmount = (this.state.pictureAmount*this.state.page)+12
+      let response = await axios.get(`${baseURL}/?q=
+${this.state.filter}
+ &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
+      this.setState({
+        apiImg: response.data.hits,
+        response: response.data,
+      });
+
     } else {
       return false;
     }
@@ -140,6 +142,7 @@ class App extends Component {
       showModal,
       imageSrc,
       imageAlt,
+      page
     } = this.state;
 
     return (
@@ -151,6 +154,7 @@ class App extends Component {
           {apiImg.length > 0 && (
             <>
               <ImageGallery
+                page={page}
                 apiImg={apiImg}
                 response={response}
                 onClick={this.onClick}

@@ -22,7 +22,6 @@ class ImageGallery extends Component {
         </ul>
         <div className={css.buttonPlace}>
           <button onClick={this.props.updateCount} className={css.button}>
-            {' '}
             Load More Pics
           </button>
         </div>
