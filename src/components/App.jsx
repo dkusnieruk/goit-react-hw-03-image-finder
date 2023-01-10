@@ -110,12 +110,12 @@ onClose = (event) =>{
 }
 updateCount =() =>{
   
-  this.didComponentUpdate()
+
   this.setState( prevState =>({
     page : prevState.page + 1 
   }))
   this.didComponentUpdate()
-  
+  this.gallerImplementation()  
 }
 
 shouldComponentUpdate(nextState){
