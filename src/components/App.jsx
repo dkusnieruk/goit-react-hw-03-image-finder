@@ -45,15 +45,19 @@ class App extends Component {
     });
   };
 
+
+
   onSubmit = event => {
-    event.preventDefault();
-    this.gallerImplementation();
     this.setState({
-      page:1,
+      page:1
     })
+    event.preventDefault();
+    this.getPhotos();
   };
 
-  async gallerImplementation() {
+
+
+   getPhotos = async()=> {
     this.setState({ isLoading: true });
     if (this.state.filter === 0) {
       this.setState({
@@ -61,7 +65,7 @@ class App extends Component {
       });
     } else
       try {
-        let galleryAmount = this.state.pictureAmount;
+        let galleryAmount = await this.state.pictureAmount*this.state.page
         let response = await axios.get(`${baseURL}/?q=
   ${this.state.filter}
    &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
@@ -102,31 +106,20 @@ class App extends Component {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-    this.didComponentUpdate();
+    this.getPhotos()
   };
 
-  shouldComponentUpdate(nextState) {
-    if (this.state.page !== nextState.page) return true;
-    else {
-      return false;
-    }
-  }
+
 
   async didComponentUpdate(prevState) {
-    if (this.shouldComponentUpdate) {
-      let galleryAmount = this.state.pictureAmount * this.state.page + 12;
-      let response = await axios.get(`${baseURL}/?q=
-${this.state.filter}
- &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
-      this.setState({
-        apiImg: response.data.hits,
-        response: response.data,
-      });
+    if (this.state.page!== prevState.page) {
+this.getPhotos()
     } else {
       return false;
     }
   }
 
+  
   render() {
     console.log(this.state);
 
