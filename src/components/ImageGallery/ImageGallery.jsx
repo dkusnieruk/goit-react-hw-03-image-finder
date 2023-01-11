@@ -1,6 +1,8 @@
 import { Component } from 'react';
+import propTypes from 'prop-types';
 import css from '../ImageGallery/imageGallery.module.css';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+
 class ImageGallery extends Component {
   render() {
     return (
@@ -29,5 +31,21 @@ class ImageGallery extends Component {
     );
   }
 }
+
+ImageGallery.propTypes = {
+  updateCount: propTypes.func,
+  tags: propTypes.string,
+  largeFormatURL: propTypes.string,
+  webformatURL: propTypes.string,
+  id: propTypes.number,
+  onClick: propTypes.func,
+  apiImg: propTypes.arrayOf(
+    propTypes.shape({
+      id: propTypes.string,
+      largeFormatURL: propTypes.string,
+      webformatURL: propTypes.string,
+    })
+  ),
+};
 
 export default ImageGallery;

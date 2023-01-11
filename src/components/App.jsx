@@ -5,6 +5,7 @@ import Modal from './Modal/Modal';
 import axios from 'axios';
 import { RevolvingDot } from 'react-loader-spinner';
 
+//SPINNER
 <RevolvingDot
   position="absolute"
   left="50%"
@@ -20,6 +21,7 @@ import { RevolvingDot } from 'react-loader-spinner';
   visible={true}
 />;
 
+//API CONSTANS
 axios.defaults.baseURL = 'https://pixabay.com/api';
 const baseURL = axios.defaults.baseURL;
 const API_KEY = '30699126-723906f358b47efc488aca811';
@@ -38,6 +40,7 @@ class App extends Component {
     };
   }
 
+  //ONCHANGE
   onChange = event => {
     const { value } = event.target;
     this.setState({
@@ -45,19 +48,17 @@ class App extends Component {
     });
   };
 
-
-
+  //SUBMIT
   onSubmit = event => {
     this.setState({
-      page:1
-    })
+      page: 1,
+    });
     event.preventDefault();
     this.getPhotos();
   };
 
-
-
-   getPhotos = async()=> {
+  // FETCH DATA
+  getPhotos = async () => {
     this.setState({ isLoading: true });
     if (this.state.filter === 0) {
       this.setState({
@@ -65,10 +66,11 @@ class App extends Component {
       });
     } else
       try {
-        let galleryAmount = await this.state.pictureAmount*this.state.page
+        let galleryAmount = (await this.state.pictureAmount) * this.state.page;
         let response = await axios.get(`${baseURL}/?q=
   ${this.state.filter}
    &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
+        await response.da;
         this.setState({
           apiImg: response.data.hits,
           response: response.data,
@@ -80,8 +82,9 @@ class App extends Component {
           isLoading: false,
         });
       }
-  }
+  };
 
+  //CLICK FUNCTION
   onClick = event => {
     event.preventDefault();
     this.setState({
@@ -90,6 +93,8 @@ class App extends Component {
       imageAlt: event.currentTarget.title,
     });
   };
+
+  //CLOSE MODAL
   onClose = event => {
     document.addEventListener(`keydown`, event => {
       if (event.key === 'Escape') {
@@ -102,24 +107,24 @@ class App extends Component {
       showModal: false,
     });
   };
+
+  //COUNT INCREMENT
   updateCount = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-    this.getPhotos()
+    this.getPhotos();
   };
 
-
-
+  //DIDCOMPONENTUPDATE
   async didComponentUpdate(prevState) {
-    if (this.state.page!== prevState.page) {
-this.getPhotos()
+    if (this.state.page !== prevState.page) {
+      this.getPhotos();
     } else {
       return false;
     }
   }
 
-  
   render() {
     console.log(this.state);
 

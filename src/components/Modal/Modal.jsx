@@ -1,6 +1,6 @@
-// import { Component } from "react";
-// import * as basicLightbox from 'basiclightbox'
+import propTypes from 'prop-types';
 import css from '../Modal/modal.module.css';
+
 const Modal = props => {
   return (
     <div className={css.overlay} onClick={props.onClose}>
@@ -9,6 +9,12 @@ const Modal = props => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  onClose: propTypes.func,
+  imageSrc: propTypes.string,
+  imageAlt: propTypes.string,
 };
 
 export default Modal;
