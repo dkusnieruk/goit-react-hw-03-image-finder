@@ -23,7 +23,7 @@ class ImageGallery extends Component {
           })}
         </ul>
         <div className={css.buttonPlace}>
-          <button onClick={this.props.updateCount} className={css.button}>
+          <button onClick={this.props.updateCount} id="LoadMore" className={css.button}>
             Load More Pics
           </button>
         </div>
@@ -37,7 +37,7 @@ ImageGallery.propTypes = {
   tags: propTypes.string,
   largeFormatURL: propTypes.string,
   webformatURL: propTypes.string,
-  id: propTypes.number,
+  id: propTypes.string,
   onClick: propTypes.func,
   apiImg: propTypes.arrayOf(
     propTypes.shape({

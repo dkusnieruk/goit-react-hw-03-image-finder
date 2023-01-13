@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import SearchBar from './SearchBar/SearchBar';
 import ImageGallery from './ImageGallery/ImageGallery';
+import FetchImages from './FetchImages/FetchImages';
 import Modal from './Modal/Modal';
-import axios from 'axios';
 import { RevolvingDot } from 'react-loader-spinner';
 
 //SPINNER
@@ -21,14 +21,10 @@ import { RevolvingDot } from 'react-loader-spinner';
   visible={true}
 />;
 
-//API CONSTANS
-axios.defaults.baseURL = 'https://pixabay.com/api';
-const baseURL = axios.defaults.baseURL;
-const API_KEY = '30699126-723906f358b47efc488aca811';
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       apiImg: [],
       isLoading: false,
@@ -46,34 +42,42 @@ class App extends Component {
     this.setState({
       filter: value,
     });
+
   };
 
   //SUBMIT
-  onSubmit = event => {
-    this.setState({
-      page: 1,
-    });
+  onSubmit = (event) => {
     event.preventDefault();
     this.getPhotos();
-  };
+    this.setState({
+      page: 1,
 
+    });
+  };
+componentWillUnmount(){
+  
+} 
   // FETCH DATA
-  getPhotos = async () => {
+   getPhotos = async () => {
+    
     this.setState({ isLoading: true });
-    if (this.state.filter === 0) {
+    if (this.state.filter === 0 || this.state.filter==='') {
       this.setState({
         apiImg: [],
+        isLoading:false
       });
-    } else
+    }
+  
+    else
       try {
-        let galleryAmount = (await this.state.pictureAmount) * this.state.page;
-        let response = await axios.get(`${baseURL}/?q=
-  ${this.state.filter}
-   &page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${galleryAmount}`);
-        await response.da;
+      
+        const  response=  await FetchImages( 
+        this.state.page,  
+        this.state.pictureAmount,  
+        this.state.filter)
+        
         this.setState({
-          apiImg: response.data.hits,
-          response: response.data,
+        apiImg:  response,
         });
       } catch (error) {
         this.setState({ error });
@@ -119,7 +123,7 @@ class App extends Component {
   //DIDCOMPONENTUPDATE
   async didComponentUpdate(prevState) {
     if (this.state.page !== prevState.page) {
-      this.getPhotos();
+      await this.getPhotos();
     } else {
       return false;
     }
@@ -127,7 +131,6 @@ class App extends Component {
 
   render() {
     console.log(this.state);
-
     if (this.state.filter === 0) {
       this.setState({
         apiImg: '',
