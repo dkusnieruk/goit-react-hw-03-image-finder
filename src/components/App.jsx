@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import SearchBar from './SearchBar/SearchBar';
 import ImageGallery from './ImageGallery/ImageGallery';
-import FetchImages from './FetchImages/FetchImages';
 import Modal from './Modal/Modal';
 import { RevolvingDot } from 'react-loader-spinner';
+import fetchImages from './FetchImages/FetchImages';
 
 //SPINNER
 <RevolvingDot
@@ -46,17 +46,21 @@ class App extends Component {
   };
 
   //SUBMIT
-  onSubmit = (event) => {
+  onSubmit = async(event) => {
     event.preventDefault();
-    this.getPhotos();
-    this.setState({
-      page: 1,
+    const submitPage=1
+    const  response=  await fetchImages( 
+      submitPage,  
+      this.state.pictureAmount,  
+      this.state.filter)
+      
 
-    });
+      this.setState({
+      apiImg:  response,
+      });
+
   };
-componentWillUnmount(){
-  
-} 
+
   // FETCH DATA
    getPhotos = async () => {
     
@@ -71,7 +75,7 @@ componentWillUnmount(){
     else
       try {
       
-        const  response=  await FetchImages( 
+        const  response=  await fetchImages( 
         this.state.page,  
         this.state.pictureAmount,  
         this.state.filter)
@@ -113,11 +117,18 @@ componentWillUnmount(){
   };
 
   //COUNT INCREMENT
-  updateCount = () => {
+   updateCount = async() => {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-    this.getPhotos();
+    const  response=  await fetchImages( 
+      this.state.page+1,  
+      this.state.pictureAmount,  
+      this.state.filter)
+      
+      this.setState({
+      apiImg:  response,
+      });
   };
 
   //DIDCOMPONENTUPDATE
