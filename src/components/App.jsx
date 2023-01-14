@@ -127,7 +127,7 @@ class App extends Component {
       this.state.filter)
       
       this.setState({
-      apiImg:  response,
+      apiImg:  [...this.state.apiImg, ...response],
       });
   };
 
