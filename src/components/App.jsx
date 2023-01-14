@@ -48,9 +48,9 @@ class App extends Component {
   //SUBMIT
   onSubmit = async(event) => {
     event.preventDefault();
-    const submitPage=1
-    const  response=  await fetchImages( 
-      submitPage,  
+    
+    const  response=  await fetchImages(  
+      this.state.page,
       this.state.pictureAmount,  
       this.state.filter)
       
@@ -86,6 +86,7 @@ class App extends Component {
       } catch (error) {
         this.setState({ error });
       } finally {
+
         this.setState({
           isLoading: false,
         });
