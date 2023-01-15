@@ -49,13 +49,14 @@ class App extends Component {
     event.preventDefault();
     
     const  response=  await fetchImages(  
-      this.state.page,
+      this.state.page=1,
       this.state.filter)
       
 
       this.setState({ 
       apiImg:  response.data.hits,
-      imageDifference : response.data.totalHits - response.data.hits.length
+      imageDifference : response.data.totalHits - response.data.hits.length,
+      page:1
       });
 
   };
