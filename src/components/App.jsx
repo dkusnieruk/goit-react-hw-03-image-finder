@@ -150,7 +150,7 @@ class App extends Component {
       page,
       imageDifference
     } = this.state;
-console.log(this.state);
+
     return (
       <>
         <div>
