@@ -21,9 +21,8 @@ import fetchImages from './FetchImages/FetchImages';
 />;
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+ 
+    state = {
       apiImg: [],
       isLoading: false,
       error: null,
@@ -31,8 +30,7 @@ class App extends Component {
       showModal: false,
       page: 1,
     };
-  }
-
+ 
   onChange = event => {
     const { value } = event.target;
     this.setState({
