@@ -23,9 +23,9 @@ class ImageGallery extends Component {
           })}
         </ul>
         <div className={css.buttonPlace}>
-          <button onClick={this.props.updateCount} id="LoadMore" className={css.button}>
+        { this.props.imageDifference >=0 && <button onClick={this.props.updateCount} id="LoadMore" className={css.button}>
             Load More Pics
-          </button>
+          </button>}
         </div>
       </>
     );
@@ -35,9 +35,6 @@ class ImageGallery extends Component {
 ImageGallery.propTypes = {
   updateCount: propTypes.func,
   tags: propTypes.string,
-  largeFormatURL: propTypes.string,
-  webformatURL: propTypes.string,
-  id: propTypes.string,
   onClick: propTypes.func,
   apiImg: propTypes.arrayOf(
     propTypes.shape({
