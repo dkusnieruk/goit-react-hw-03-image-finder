@@ -23,11 +23,11 @@ class ImageGalleryItem extends Component {
 }
 
 ImageGalleryItem.propTypes = {
-  largeFormatURL: propTypes.string,
+  href: propTypes.string,
   onClick: propTypes.func,
-  id: propTypes.number,
-  webformatURL: propTypes.string,
-  tags: propTypes.string,
+  key: propTypes.number,
+  src: propTypes.string,
+  title: propTypes.string,
 };
 
 export default ImageGalleryItem;

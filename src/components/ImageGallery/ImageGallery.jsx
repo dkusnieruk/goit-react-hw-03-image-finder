@@ -33,9 +33,9 @@ class ImageGallery extends Component {
 }
 
 ImageGallery.propTypes = {
-  updateCount: propTypes.func,
-  tags: propTypes.string,
+  imageDifference: propTypes.number,
   onClick: propTypes.func,
+  tags: propTypes.string,
   apiImg: propTypes.arrayOf(
     propTypes.shape({
       id: propTypes.string,

@@ -12,9 +12,9 @@ const Modal = props => {
 };
 
 Modal.propTypes = {
-  onClose: propTypes.func,
-  imageSrc: propTypes.string,
-  imageAlt: propTypes.string,
+  onClick: propTypes.func,
+  src: propTypes.string,
+  alt: propTypes.string,
 };
 
 export default Modal;
