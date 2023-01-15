@@ -5,7 +5,6 @@ import Modal from './Modal/Modal';
 import { RevolvingDot } from 'react-loader-spinner';
 import fetchImages from './FetchImages/FetchImages';
 
-//SPINNER
 <RevolvingDot
   position="absolute"
   left="50%"
@@ -34,7 +33,6 @@ class App extends Component {
     };
   }
 
-  //ONCHANGE
   onChange = event => {
     const { value } = event.target;
     this.setState({
@@ -42,7 +40,6 @@ class App extends Component {
     });
   };
 
-  //SUBMIT
   onSubmit = async event => {
     event.preventDefault();
 
@@ -58,7 +55,6 @@ class App extends Component {
     });
   };
 
-  // FETCH DATA
   getPhotos = async () => {
     this.setState({ isLoading: true });
     if (this.state.filter === 0 || this.state.filter === '') {
@@ -83,7 +79,6 @@ class App extends Component {
       }
   };
 
-  //CLICK FUNCTION
   onClick = event => {
     event.preventDefault();
     this.setState({
@@ -93,7 +88,6 @@ class App extends Component {
     });
   };
 
-  //CLOSE MODAL
   onClose = event => {
     document.addEventListener(`keydown`, event => {
       if (event.key === 'Escape') {
@@ -107,7 +101,6 @@ class App extends Component {
     });
   };
 
-  //COUNT INCREMENT
   updateCount = async () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
@@ -120,7 +113,6 @@ class App extends Component {
     });
   };
 
-  //DIDCOMPONENTUPDATE
   async didComponentUpdate(prevState) {
     if (this.state.page !== prevState.page) {
       await this.getPhotos();
