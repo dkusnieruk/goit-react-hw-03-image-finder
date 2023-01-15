@@ -21,7 +21,6 @@ import fetchImages from './FetchImages/FetchImages';
   visible={true}
 />;
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -41,44 +40,39 @@ class App extends Component {
     this.setState({
       filter: value,
     });
-
   };
 
   //SUBMIT
-  onSubmit = async(event) => {
+  onSubmit = async event => {
     event.preventDefault();
-    
-    const  response=  await fetchImages(  
-      this.state.page=1,
-      this.state.filter)
-      
 
-      this.setState({ 
-      apiImg:  response.data.hits,
-      imageDifference : response.data.totalHits - response.data.hits.length,
-      page:1
-      });
+    const response = await fetchImages(
+      (this.state.page = 1),
+      this.state.filter
+    );
 
+    this.setState({
+      apiImg: response.data.hits,
+      imageDifference: response.data.totalHits - response.data.hits.length,
+      page: 1,
+    });
   };
 
   // FETCH DATA
-   getPhotos = async () => {    
+  getPhotos = async () => {
     this.setState({ isLoading: true });
-    if (this.state.filter === 0 || this.state.filter==='') {
+    if (this.state.filter === 0 || this.state.filter === '') {
       this.setState({
         apiImg: [],
-        isLoading:false
+        isLoading: false,
       });
-    }
-    else
-      try { 
-        const  response=  await fetchImages( 
-        this.state.page,    
-        this.state.filter)
-        
+    } else
+      try {
+        const response = await fetchImages(this.state.page, this.state.filter);
+
         this.setState({
-        apiImg:  response.data.hits,
-        imageDifference : response.data.totalHits - this.state.apiImg.length
+          apiImg: response.data.hits,
+          imageDifference: response.data.totalHits - this.state.apiImg.length,
         });
       } catch (error) {
         this.setState({ error });
@@ -114,22 +108,18 @@ class App extends Component {
   };
 
   //COUNT INCREMENT
-   updateCount = async() => {
+  updateCount = async () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-    const  newImages=  await fetchImages( 
-      this.state.page+1,   
-      this.state.filter)
-      
-      this.setState({
-      apiImg:  [...this.state.apiImg, ...newImages.data.hits],
-      imageDifference : this.state.imageDifference - this.state.apiImg.length
-      });
-     
+    const newImages = await fetchImages(this.state.page + 1, this.state.filter);
+
+    this.setState({
+      apiImg: [...this.state.apiImg, ...newImages.data.hits],
+      imageDifference: this.state.imageDifference - this.state.apiImg.length,
+    });
   };
 
-  
   //DIDCOMPONENTUPDATE
   async didComponentUpdate(prevState) {
     if (this.state.page !== prevState.page) {
@@ -149,7 +139,7 @@ class App extends Component {
       imageSrc,
       imageAlt,
       page,
-      imageDifference
+      imageDifference,
     } = this.state;
 
     return (

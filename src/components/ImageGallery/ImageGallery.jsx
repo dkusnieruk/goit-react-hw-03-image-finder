@@ -23,9 +23,15 @@ class ImageGallery extends Component {
           })}
         </ul>
         <div className={css.buttonPlace}>
-        { this.props.imageDifference >=0 && <button onClick={this.props.updateCount} id="LoadMore" className={css.button}>
-            Load More Pics
-          </button>}
+          {this.props.imageDifference >= 0 && (
+            <button
+              onClick={this.props.updateCount}
+              id="LoadMore"
+              className={css.button}
+            >
+              Load More Pics
+            </button>
+          )}
         </div>
       </>
     );
