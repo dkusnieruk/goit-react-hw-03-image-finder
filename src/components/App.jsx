@@ -3,7 +3,7 @@ import SearchBar from './SearchBar/SearchBar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Modal from './Modal/Modal';
 import fetchImages from '../fetchImages/fetchImages';
-import Loader from 'Loader/Loader';
+import Loader from '../Loader/Loader';
 
 
 class App extends Component {
@@ -26,8 +26,10 @@ class App extends Component {
   };
 
   onSubmit = async event => {
+    this.setState({
+      isLoading:true
+    })
     event.preventDefault();
-    
     const response = await fetchImages(
       this.state.page,
       this.state.filter
@@ -36,6 +38,7 @@ class App extends Component {
     this.setState({
       pictures: response.data.hits,
       totalHits:response.data.totalHits,
+      isLoading:false
         });
   };
 
@@ -64,6 +67,7 @@ class App extends Component {
   };
 
   onClickModal = event => {
+
     event.preventDefault();
     this.setState({
       showModal: true,
@@ -87,6 +91,7 @@ class App extends Component {
 
   updateCount = async () => {
     this.setState(prevState => ({
+      isLoading:true,
       page: prevState.page + 1,
     }));
     const newImages = await fetchImages(this.state.page + 1, this.state.filter);
@@ -94,7 +99,7 @@ class App extends Component {
     this.setState({
       pictures: [...this.state.pictures, ...newImages.data.hits],
       totalHits:this.state.totalHits,
-      
+      isLoading:false
     });
   };
 
@@ -107,7 +112,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     const {
       pictures,
       error,
