@@ -2,6 +2,7 @@ import propTypes from 'prop-types';
 import css from '../Modal/modal.module.css';
 
 const Modal = props => {
+  console.log(props);
   return (
     <div className={css.overlay} onClick={props.onClose}>
       <div className={css.modal}>
@@ -12,9 +13,9 @@ const Modal = props => {
 };
 
 Modal.propTypes = {
-  onClick: propTypes.func,
-  src: propTypes.string,
-  alt: propTypes.string,
+  onClose: propTypes.func,
+  imageSrc: propTypes.string,
+  ima: propTypes.string,
 };
 
 export default Modal;

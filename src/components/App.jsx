@@ -2,28 +2,14 @@ import { Component } from 'react';
 import SearchBar from './SearchBar/SearchBar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Modal from './Modal/Modal';
-import { RevolvingDot } from 'react-loader-spinner';
-import fetchImages from './FetchImages/FetchImages';
+import fetchImages from '../fetchImages/fetchImages';
+import Loader from 'Loader/Loader';
 
-<RevolvingDot
-  position="absolute"
-  left="50%"
-  top="50%"
-  height="100"
-  width="100"
-  radius="6"
-  color="#4fa94d"
-  secondaryColor=""
-  ariaLabel="revolving-dot-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={true}
-/>;
 
 class App extends Component {
  
     state = {
-      apiImg: [],
+      pictures: [],
       isLoading: false,
       error: null,
       filter: '',
@@ -35,29 +21,29 @@ class App extends Component {
     const { value } = event.target;
     this.setState({
       filter: value,
+      page:1
     });
   };
 
   onSubmit = async event => {
     event.preventDefault();
-
+    
     const response = await fetchImages(
-      (this.state.page = 1),
+      this.state.page,
       this.state.filter
     );
 
     this.setState({
-      apiImg: response.data.hits,
-      imageDifference: response.data.totalHits - response.data.hits.length,
-      page: 1,
-    });
+      pictures: response.data.hits,
+      totalHits:response.data.totalHits,
+        });
   };
 
   getPhotos = async () => {
     this.setState({ isLoading: true });
     if (this.state.filter === 0 || this.state.filter === '') {
       this.setState({
-        apiImg: [],
+        pictures: [],
         isLoading: false,
       });
     } else
@@ -65,8 +51,8 @@ class App extends Component {
         const response = await fetchImages(this.state.page, this.state.filter);
 
         this.setState({
-          apiImg: response.data.hits,
-          imageDifference: response.data.totalHits - this.state.apiImg.length,
+          pictures: response.data.hits,
+          totalHits:response.data.totalHits
         });
       } catch (error) {
         this.setState({ error });
@@ -77,7 +63,7 @@ class App extends Component {
       }
   };
 
-  onClick = event => {
+  onClickModal = event => {
     event.preventDefault();
     this.setState({
       showModal: true,
@@ -86,7 +72,7 @@ class App extends Component {
     });
   };
 
-  onClose = event => {
+  onClose =() => {
     document.addEventListener(`keydown`, event => {
       if (event.key === 'Escape') {
         this.setState({
@@ -106,8 +92,9 @@ class App extends Component {
     const newImages = await fetchImages(this.state.page + 1, this.state.filter);
 
     this.setState({
-      apiImg: [...this.state.apiImg, ...newImages.data.hits],
-      imageDifference: this.state.imageDifference - this.state.apiImg.length,
+      pictures: [...this.state.pictures, ...newImages.data.hits],
+      totalHits:this.state.totalHits,
+      
     });
   };
 
@@ -120,8 +107,9 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state);
     const {
-      apiImg,
+      pictures,
       error,
       isLoading,
       response,
@@ -129,7 +117,7 @@ class App extends Component {
       imageSrc,
       imageAlt,
       page,
-      imageDifference,
+      totalHits,
     } = this.state;
 
     return (
@@ -137,16 +125,16 @@ class App extends Component {
         <div>
           <SearchBar onChange={this.onChange} onSubmit={this.onSubmit} />
           {error && <p>Whoops, something went wrong: {error.message}</p>}
-          {isLoading && <RevolvingDot />}
-          {apiImg.length > 0 && (
+          {isLoading && <Loader/>}
+          {pictures.length > 0 && (
             <>
               <ImageGallery
                 page={page}
-                apiImg={apiImg}
+                pictures={pictures}
                 response={response}
-                onClick={this.onClick}
+                onClickModal={this.onClickModal}
                 updateCount={this.updateCount}
-                imageDifference={imageDifference}
+                totalHits={totalHits}
               />
             </>
           )}

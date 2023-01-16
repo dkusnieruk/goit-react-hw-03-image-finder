@@ -8,22 +8,21 @@ class ImageGallery extends Component {
     return (
       <>
         <ul className={css.gallery}>
-          {this.props.apiImg.map((apiImg, index) => {
+          {this.props.pictures.map((picture, index) => {
             return (
               <ImageGalleryItem
-                onClick={this.props.onClick}
-                apiImg={apiImg}
+                onClickModal={this.props.onClickModal}
+                picture={picture}
                 index={index}
-                key={apiImg.id}
-                webformatURL={apiImg.webformatURL}
-                largeFormatURL={apiImg.largeImageURL}
-                tags={apiImg.tags}
+                webformatURL={picture.webformatURL}
+                largeFormatURL={picture.largeImageURL}
+                tags={picture.tags}
               />
             );
           })}
         </ul>
         <div className={css.buttonPlace}>
-          {this.props.imageDifference >= 0 && (
+          {this.props.totalHits-this.props.pictures.length > 0 && (
             <button
               onClick={this.props.updateCount}
               id="LoadMore"
@@ -39,7 +38,7 @@ class ImageGallery extends Component {
 }
 
 ImageGallery.propTypes = {
-  imageDifference: propTypes.number,
+  totalHits: propTypes.number,
   onClick: propTypes.func,
   tags: propTypes.string,
   apiImg: propTypes.arrayOf(
