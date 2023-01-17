@@ -4,8 +4,7 @@ import css from '../ImageGalleryItem/imageGalleryItem.module.css';
 class ImageGalleryItem extends Component {
   render() {
     return (
-      <li key={this.props.picture.id}
-      id={this.props.picture.id}>
+      <li key={this.props.picture.id} id={this.props.picture.id}>
         <a
           className={css.link}
           href={this.props.largeFormatURL}
@@ -29,7 +28,7 @@ ImageGalleryItem.propTypes = {
   id: propTypes.number,
   webformatURL: propTypes.string,
   title: propTypes.string,
-  tags: propTypes.string
+  tags: propTypes.string,
 };
 
 export default ImageGalleryItem;

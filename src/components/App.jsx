@@ -3,43 +3,38 @@ import SearchBar from './SearchBar/SearchBar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Modal from './Modal/Modal';
 import fetchImages from '../fetchImages/fetchImages';
-import Loader from '../Loader/Loader';
-
+import Loader from './Loader/Loader';
 
 class App extends Component {
- 
-    state = {
-      pictures: [],
-      isLoading: false,
-      error: null,
-      filter: '',
-      showModal: false,
-      page: 1,
-    };
- 
+  state = {
+    pictures: [],
+    isLoading: false,
+    error: null,
+    filter: '',
+    showModal: false,
+    page: 1,
+  };
+
   onChange = event => {
     const { value } = event.target;
     this.setState({
       filter: value,
-      page:1
+      page: 1,
     });
   };
 
   onSubmit = async event => {
     this.setState({
-      isLoading:true
-    })
+      isLoading: true,
+    });
     event.preventDefault();
-    const response = await fetchImages(
-      this.state.page,
-      this.state.filter
-    );
+    const response = await fetchImages(this.state.page, this.state.filter);
 
     this.setState({
       pictures: response.data.hits,
-      totalHits:response.data.totalHits,
-      isLoading:false
-        });
+      totalHits: response.data.totalHits,
+      isLoading: false,
+    });
   };
 
   getPhotos = async () => {
@@ -55,7 +50,7 @@ class App extends Component {
 
         this.setState({
           pictures: response.data.hits,
-          totalHits:response.data.totalHits
+          totalHits: response.data.totalHits,
         });
       } catch (error) {
         this.setState({ error });
@@ -66,8 +61,7 @@ class App extends Component {
       }
   };
 
-  onClickModal = event => {
-
+  onClickModal = (event, largeImageURL) => {
     event.preventDefault();
     this.setState({
       showModal: true,
@@ -76,7 +70,7 @@ class App extends Component {
     });
   };
 
-  onClose =() => {
+  onClose = () => {
     document.addEventListener(`keydown`, event => {
       if (event.key === 'Escape') {
         this.setState({
@@ -91,15 +85,15 @@ class App extends Component {
 
   updateCount = async () => {
     this.setState(prevState => ({
-      isLoading:true,
+      isLoading: true,
       page: prevState.page + 1,
     }));
     const newImages = await fetchImages(this.state.page + 1, this.state.filter);
 
     this.setState({
       pictures: [...this.state.pictures, ...newImages.data.hits],
-      totalHits:this.state.totalHits,
-      isLoading:false
+      totalHits: this.state.totalHits,
+      isLoading: false,
     });
   };
 
@@ -112,6 +106,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state);
     const {
       pictures,
       error,
@@ -129,7 +124,7 @@ class App extends Component {
         <div>
           <SearchBar onChange={this.onChange} onSubmit={this.onSubmit} />
           {error && <p>Whoops, something went wrong: {error.message}</p>}
-          {isLoading && <Loader/>}
+          {isLoading && <Loader />}
           {pictures.length > 0 && (
             <>
               <ImageGallery

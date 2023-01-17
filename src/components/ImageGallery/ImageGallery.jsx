@@ -22,7 +22,7 @@ class ImageGallery extends Component {
           })}
         </ul>
         <div className={css.buttonPlace}>
-          {this.props.totalHits-this.props.pictures.length > 0 && (
+          {this.props.totalHits - this.props.pictures.length > 0 && (
             <button
               onClick={this.props.updateCount}
               id="LoadMore"
