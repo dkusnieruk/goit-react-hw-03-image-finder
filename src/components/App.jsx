@@ -61,12 +61,11 @@ class App extends Component {
       }
   };
 
-  onClickModal = (event, largeImageURL) => {
-    event.preventDefault();
+  onClickModal = (largeFormatURL, tags) => {
     this.setState({
       showModal: true,
-      imageSrc: event.currentTarget.href,
-      imageAlt: event.currentTarget.title,
+      imageSrc: largeFormatURL,
+      imageAlt: tags,
     });
   };
 

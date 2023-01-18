@@ -1,14 +1,17 @@
 import { Component } from 'react';
 import propTypes from 'prop-types';
 import css from '../ImageGalleryItem/imageGalleryItem.module.css';
+
 class ImageGalleryItem extends Component {
   render() {
     return (
       <li key={this.props.picture.id} id={this.props.picture.id}>
-        <a
+        <div
           className={css.link}
           href={this.props.largeFormatURL}
-          onClick={this.props.onClickModal}
+          onClick={() =>
+            this.props.onClickModal(this.props.largeFormatURL, this.props.tags)
+          }
           title={this.props.tags}
         >
           <img
@@ -16,7 +19,7 @@ class ImageGalleryItem extends Component {
             alt={this.props.tags}
             className={css.image}
           />
-        </a>
+        </div>
       </li>
     );
   }
