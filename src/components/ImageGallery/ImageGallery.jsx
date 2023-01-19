@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import propTypes from 'prop-types';
 import css from '../ImageGallery/imageGallery.module.css';
+import ButtonLoadMorePics from 'components/Button/ButtonLoadMore';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
 class ImageGallery extends Component {
@@ -23,13 +24,7 @@ class ImageGallery extends Component {
         </ul>
         <div className={css.buttonPlace}>
           {this.props.totalHits - this.props.pictures.length > 0 && (
-            <button
-              onClick={this.props.updateCount}
-              id="LoadMore"
-              className={css.button}
-            >
-              Load More Pics
-            </button>
+            <ButtonLoadMorePics updateCount={this.props.updateCount} />
           )}
         </div>
       </>
